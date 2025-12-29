@@ -321,6 +321,28 @@ wheels = [
 ]
 
 [[package]]
+name = "django-ltree-field"
+version = "0.1.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d8/d8/bf803ed06d5eda5366d6680f1d291634b3fbab8112df37bbbaf0bc37540f/django-ltree-field-0.1.7.tar.gz", hash = "sha256:b2f4df841498a5e9edf0953e205e6ec29946dd8f2a0ec7accfd34cd81f62fa3e", size = 24938 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/de/ee/3f59b293020a255c80fe59fbb5833e68c6dc05dfc11c30e1128c578cc93a/django_ltree_field-0.1.7-py2.py3-none-any.whl", hash = "sha256:2649331536ffb1ca374275cccb816feda833ddebe216e255e8dba60ea47b6c48", size = 12721 },
+]
+
+[[package]]
+name = "django-redis"
+version = "6.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "redis" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/08/53/dbcfa1e528e0d6c39947092625b2c89274b5d88f14d357cee53c4d6dbbd4/django_redis-6.0.0.tar.gz", hash = "sha256:2d9cb12a20424a4c4dde082c6122f486628bae2d9c2bee4c0126a4de7fda00dd", size = 56904 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7e/79/055dfcc508cfe9f439d9f453741188d633efa9eab90fc78a67b0ab50b137/django_redis-6.0.0-py3-none-any.whl", hash = "sha256:20bf0063a8abee567eb5f77f375143c32810c8700c0674ced34737f8de4e36c0", size = 33687 },
+]
+
+[[package]]
 name = "django-structlog"
 version = "10.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -333,32 +355,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/72/a9/102f316fb60dbec46642168979c4f57c9d8140fe43624ddca1ca6106274a/django_structlog-10.0.0.tar.gz", hash = "sha256:4e3fa4a930697fb9b649470e389419bb73b916a1ecf4f4bf2f8727f5cbfdb002", size = 23054 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6c/83/d7245a2a2bb46ae65ecff00686181d632553b131ea0c5cbfcbdb8f89c190/django_structlog-10.0.0-py3-none-any.whl", hash = "sha256:4f9db3cb7b308df6aa4afe1353d9c19d5bac757022ddbbb5c24f3d0d6a91a240", size = 18159 },
-]
-
-[[package]]
-name = "djangorestframework"
-version = "3.16.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/8a/95/5376fe618646fde6899b3cdc85fd959716bb67542e273a76a80d9f326f27/djangorestframework-3.16.1.tar.gz", hash = "sha256:166809528b1aced0a17dc66c24492af18049f2c9420dbd0be29422029cfc3ff7", size = 1089735 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b0/ce/bf8b9d3f415be4ac5588545b5fcdbbb841977db1c1d923f7568eeabe1689/djangorestframework-3.16.1-py3-none-any.whl", hash = "sha256:33a59f47fb9c85ede792cbf88bde71893bcda0667bc573f784649521f1102cec", size = 1080442 },
-]
-
-[[package]]
-name = "djangorestframework-simplejwt"
-version = "5.5.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-    { name = "djangorestframework" },
-    { name = "pyjwt" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a8/27/2874a325c11112066139769f7794afae238a07ce6adf96259f08fd37a9d7/djangorestframework_simplejwt-5.5.1.tar.gz", hash = "sha256:e72c5572f51d7803021288e2057afcbd03f17fe11d484096f40a460abc76e87f", size = 101265 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/60/94/fdfb7b2f0b16cd3ed4d4171c55c1c07a2d1e3b106c5978c8ad0c15b4a48b/djangorestframework_simplejwt-5.5.1-py3-none-any.whl", hash = "sha256:2c30f3707053d384e9f315d11c2daccfcb548d4faa453111ca19a542b732e469", size = 107674 },
 ]
 
 [[package]]
@@ -498,15 +494,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pip"
-version = "25.3"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fe/6e/74a3f0179a4a73a53d66ce57fdb4de0080a8baa1de0063de206d6167acc2/pip-25.3.tar.gz", hash = "sha256:8d0538dbbd7babbd207f261ed969c65de439f6bc9e5dbd3b3b9a77f25d95f343", size = 1803014 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/3c/d717024885424591d5376220b5e836c2d5293ce2011523c9de23ff7bf068/pip-25.3-py3-none-any.whl", hash = "sha256:9655943313a94722b7774661c21049070f6bbb0a1516bf02f7c8d5d9201514cd", size = 1778622 },
-]
-
-[[package]]
 name = "platformdirs"
 version = "4.5.1"
 source = { registry = "https://pypi.org/simple" }
@@ -576,15 +563,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/fe/cf/d2d3b9f5699fb1e4615c8e32ff220203e43b248e1dfcc6736ad9057731ca/pycparser-2.23.tar.gz", hash = "sha256:78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2", size = 173734 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/e3/59cd50310fc9b59512193629e1984c1f95e5c8ae6e5d8c69532ccc65a7fe/pycparser-2.23-py3-none-any.whl", hash = "sha256:e5c6e8d3fbad53479cab09ac03729e0a9faf2bee3db8208a550daf5af81a5934", size = 118140 },
-]
-
-[[package]]
-name = "pyjwt"
-version = "2.10.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e7/46/bd74733ff231675599650d3e47f361794b22ef3e3770998dda30d3b63726/pyjwt-2.10.1.tar.gz", hash = "sha256:3cc5772eb20009233caf06e9d8a0577824723b44e6648ee0a2aedb6cf9381953", size = 87785 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/61/ad/689f02752eeec26aed679477e80e632ef1b682313be70793d798c1d5fc8f/PyJWT-2.10.1-py3-none-any.whl", hash = "sha256:dcdd193e30abefd5debf142f9adfcdd2b58004e644f25406ffaebd50bd98dacb", size = 22997 },
 ]
 
 [[package]]
@@ -729,12 +707,11 @@ dependencies = [
     { name = "daphne" },
     { name = "django" },
     { name = "django-environ" },
+    { name = "django-ltree-field" },
+    { name = "django-redis" },
     { name = "django-structlog" },
-    { name = "djangorestframework" },
-    { name = "djangorestframework-simplejwt" },
     { name = "dotenv" },
     { name = "gunicorn" },
-    { name = "pip" },
     { name = "pre-commit" },
     { name = "psycopg2" },
     { name = "redis" },
@@ -749,12 +726,11 @@ requires-dist = [
     { name = "daphne", specifier = ">=4.2.1" },
     { name = "django", specifier = "==5.2.8" },
     { name = "django-environ", specifier = ">=0.12.0" },
+    { name = "django-ltree-field", specifier = ">=0.1.7" },
+    { name = "django-redis", specifier = ">=6.0.0" },
     { name = "django-structlog", specifier = ">=10.0.0" },
-    { name = "djangorestframework", specifier = ">=3.16.1" },
-    { name = "djangorestframework-simplejwt", specifier = ">=5.5.1" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "gunicorn", specifier = ">=23.0.0" },
-    { name = "pip", specifier = ">=25.3" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "psycopg2", specifier = ">=2.9.11" },
     { name = "redis", specifier = ">=7.1.0" },

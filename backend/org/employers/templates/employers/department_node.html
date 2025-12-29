@@ -1,0 +1,30 @@
+<div class="department-item">
+    <div class="department-header collapsed"
+         data-level="{{ department.level }}"
+         data-department-id="{{ department.id }}">
+        <span class="toggle-icon"></span>
+        <strong>{{ department.name }}</strong>
+        <span class="badge badge-level ms-2">Уровень {{ department.level }}</span>
+        <span class="badge bg-primary ms-2 employees-count"
+              data-department-id="{{ department.id }}"
+              data-initial-count="{{ department.employees_count }}">
+            {{ department.employees_count }} сотрудников
+        </span>
+    </div>
+
+    <div class="department-children" data-department-id="{{ department.id }}">
+        <!-- Контейнер для сотрудников (загружается через AJAX) -->
+        <div class="employees-container" data-department-id="{{ department.id }}">
+            <div class="text-center text-muted py-3">
+                <small>Нажмите, чтобы загрузить сотрудников</small>
+            </div>
+        </div>
+
+        <!-- Дочерние отделы -->
+        {% for child_id, child_dept in departments_dict.items %}
+            {% if child_dept.parent_id == department.id %}
+                {% include 'employers/department_node.html' with department=child_dept departments_dict=departments_dict %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
