@@ -1,0 +1,13 @@
+pre-commit:
+  fail_on_changes: "ci"
+  jobs:
+    - glob: "org/*.py"
+      root: org
+      run: uvx run autoflake --in-place --remove-all-unused-imports --ignore-init-module-imports {staged_files}
+      stage_fixed: true
+
+pre-push:
+  jobs:
+    - glob: "org/*.py"
+      root: org
+      run: uv run python manage.py makemigrations --check --dry-run

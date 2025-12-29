@@ -1,0 +1,32 @@
+exclude: 'admin|migrations|.git'
+files: org
+default_stages: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  - repo: https://github.com/myint/autoflake
+    rev: v1.7.8
+    hooks:
+      - id: autoflake
+        args: ['--in-place', '--remove-all-unused-imports', '--ignore-init-module-imports']
+
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ['--settings-file=.editorconfig']
+
+  - repo: local
+    hooks:
+      - id: django-migrations
+        name: check django migrations
+        entry: bash -c 'cd org && uv run python manage.py makemigrations --check --dry-run'
+        language: system
+        pass_filenames: false
+        types: [python]
+        stages: [pre-push]
