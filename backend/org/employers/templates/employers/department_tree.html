@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Структура отделов</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .department-tree {
+            margin-left: 0;
+        }
+        .department-item {
+            margin-bottom: 10px;
+        }
+        .department-header {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .department-header:hover {
+            background-color: #e9ecef;
+        }
+        .department-header.collapsed .toggle-icon::before {
+            content: "▶";
+        }
+        .department-header.expanded .toggle-icon::before {
+            content: "▼";
+        }
+        .toggle-icon {
+            margin-right: 10px;
+            width: 20px;
+            display: inline-block;
+        }
+        .department-children {
+            margin-left: 30px;
+            margin-top: 10px;
+            display: none;
+        }
+        .department-children.expanded {
+            display: block;
+        }
+        .employees-list {
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+        .employee-item {
+            padding: 8px;
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        .badge-level {
+            margin-left: auto;
+            background-color: #6c757d;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .pagination {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Структура отделов организации</h1>
+
+        <div class="department-tree">
+            {% for dept in root_departments %}
+                {% include 'employers/department_node.html' with department=dept departments_dict=departments_dict %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Функция для загрузки сотрудников отдела через AJAX
+            function loadEmployees(departmentId, page = 1) {
+                const container = document.querySelector(
+                    `.employees-container[data-department-id="${departmentId}"]`
+                );
+                const countBadge = document.querySelector(
+                    `.employees-count[data-department-id="${departmentId}"]`
+                );
+
+                if (!container) return;
+
+                // Показываем индикатор загрузки
+                container.innerHTML = '<div class="text-center py-3"><div class="loading-spinner"></div> Загрузка...</div>';
+
+                // Запрос к серверу
+                fetch(`{% url 'employers:department_employees' %}?department_id=${departmentId}&page=${page}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.html) {
+                        container.innerHTML = data.html;
+                        // Обновляем количество сотрудников при загрузке
+                        if (data.total_count !== undefined) {
+                            updateEmployeesCount(departmentId, data.total_count);
+                        }
+
+                        // Добавляем обработчики для пагинации
+                        attachPaginationHandlers(departmentId);
+                    } else if (data.error) {
+                        container.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка загрузки сотрудников:', error);
+                    container.innerHTML = '<div class="alert alert-danger">Ошибка загрузки данных</div>';
+                });
+            }
+
+            // Функция для обновления количества сотрудников отдела (используется при загрузке сотрудников)
+            function updateEmployeesCount(departmentId, count) {
+                const countBadge = document.querySelector(
+                    `.employees-count[data-department-id="${departmentId}"]`
+                );
+                if (countBadge && count !== undefined) {
+                    countBadge.textContent = `${count} сотрудников`;
+                    countBadge.setAttribute('data-initial-count', count);
+                }
+            }
+
+            // Функция для привязки обработчиков пагинации
+            function attachPaginationHandlers(departmentId) {
+                const container = document.querySelector(
+                    `.employees-container[data-department-id="${departmentId}"]`
+                );
+                if (!container) return;
+
+                // Обработчики для ссылок пагинации
+                container.querySelectorAll('.page-link[data-page]').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const page = this.getAttribute('data-page');
+                        const deptId = this.getAttribute('data-department-id');
+                        loadEmployees(deptId, page);
+
+                        // Прокрутка к началу списка сотрудников
+                        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+            }
+
+            // Обработчик клика по заголовку отдела
+            document.querySelectorAll('.department-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const departmentId = this.getAttribute('data-department-id');
+                    const children = this.nextElementSibling;
+
+                    if (children && children.classList.contains('department-children')) {
+                        const isExpanding = !children.classList.contains('expanded');
+
+                        children.classList.toggle('expanded');
+                        this.classList.toggle('expanded');
+                        this.classList.toggle('collapsed');
+
+                        // Если узел раскрывается впервые, загружаем сотрудников
+                        if (isExpanding) {
+                            const container = children.querySelector(
+                                `.employees-container[data-department-id="${departmentId}"]`
+                            );
+
+                            // Проверяем, загружены ли уже сотрудники
+                            if (container && !container.dataset.loaded) {
+                                loadEmployees(departmentId, 1);
+                                container.dataset.loaded = 'true';
+                            }
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

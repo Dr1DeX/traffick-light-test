@@ -35,10 +35,13 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     "org.core",
+    "org.employers",
 ]
 
 THIRD_PARTY_APPS = [
-    "daphne"
+    "daphne",
+    "django_structlog",
+    "django_ltree_field"
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
@@ -89,6 +92,16 @@ CHANNELS_REDIS_USER = env("CHANNELS_REDIS_USER", default=None)
 CHANNELS_REDIS_PASSWORD = env("CHANNELS_REDIS_PASSWORD", default=None)
 CHANNELS_REDIS_DB = env("CHANNELS_REDIS_DB", default=0)
 CHANNELS_REDIS_SSL = env.bool("CHANNELS_REDIS_SSL", default=False)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{CHANNELS_REDIS_HOST}:{CHANNELS_REDIS_PORT}/{CHANNELS_REDIS_DB}',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
 
 CHANNELS_LAYERS = {
     "default": {
