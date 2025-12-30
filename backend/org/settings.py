@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="change-me-daddy")
 
-DEBUG = env.bool("DJANGO_DEBUG", default=True)
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -35,7 +35,7 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     "org.core",
-    "org.employers",
+    "org.employers"
 ]
 
 THIRD_PARTY_APPS = [
