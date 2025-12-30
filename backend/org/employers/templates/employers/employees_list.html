@@ -1,5 +1,5 @@
 <div class="employees-list" data-department-id="{{ department.id }}">
-    <h6 class="text-muted mb-2">
+    <h6 class="text-muted mb-3">
         Сотрудники отдела "{{ department.name }}":
         <span class="badge bg-info">{{ page_obj.paginator.count }}</span>
     </h6>
@@ -8,18 +8,30 @@
     {% if employees %}
         {% for employee in employees %}
             <div class="employee-item">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col-md-4">
-                        <strong>{{ employee.full_name }}</strong>
+                        <div class="d-flex flex-column">
+                            <small class="text-muted mb-1">ФИО:</small>
+                            <strong>{{ employee.full_name }}</strong>
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <span class="text-muted">{{ employee.position }}</span>
+                        <div class="d-flex flex-column">
+                            <small class="text-muted mb-1">Должность:</small>
+                            <span>{{ employee.position }}</span>
+                        </div>
                     </div>
                     <div class="col-md-2">
-                        <small class="text-muted">{{ employee.hired_at|date:"d.m.Y" }}</small>
+                        <div class="d-flex flex-column">
+                            <small class="text-muted mb-1">Дата приема:</small>
+                            <small>{{ employee.hired_at|date:"d.m.Y" }}</small>
+                        </div>
                     </div>
                     <div class="col-md-3 text-end">
-                        <span class="badge bg-success">{{ employee.salary }} ₽</span>
+                        <div class="d-flex flex-column align-items-end">
+                            <small class="text-muted mb-1">Зарплата:</small>
+                            <span class="badge bg-success">{{ employee.salary }} ₽</span>
+                        </div>
                     </div>
                 </div>
             </div>

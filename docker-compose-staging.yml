@@ -1,0 +1,56 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/dev/app/Dockerfile
+    container_name: app
+    env_file:
+      - .env.example
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - static-files:/app/backend/static
+  db:
+    image: postgres:15.1-alpine
+    container_name: db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U postgres' ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .docker/dev/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - static-files:/app/backend/static:ro
+
+volumes:
+  postgres-data:
+  static-files:
