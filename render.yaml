@@ -50,6 +50,10 @@ services:
          name: traffick-light-redis
          type: redis
          property: password
+      - key: CHANNELS_REDIS_DB
+        value: "0"
+      - key: CHANNELS_REDIS_SSL
+        value: "True"
       - key: DJANGO_SUPERUSER_USERNAME
         value: admin
       - key: DJANGO_SUPERUSER_EMAIL
