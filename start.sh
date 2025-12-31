@@ -3,6 +3,12 @@
 
 set -e
 
+# Устанавливаем uv, если его нет (на Render build и runtime - разные окружения)
+if ! command -v uv &> /dev/null; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
 export PATH="$HOME/.local/bin:/opt/render/.local/bin:$PATH"
 
 cd backend
