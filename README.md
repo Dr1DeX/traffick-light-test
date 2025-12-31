@@ -39,7 +39,7 @@ ___
 ## Локальный запуск приложения(только инфраструктура)
 Я использую пакетный менеждер uv для управления зависимостями, однако можно и через pip
 
-1) Поднять инфру через docker-compose(PostgreSQL, Redis) - `make run-local`
+1) Поднять инфру через docker-compose-local.yml(PostgreSQL, Redis) - `make run-local`
 2) Перейти в папку - `backend`
 3) Установка зависимостей - `pip install -r requirements.txt` или через uv `uv sync --no-cache`
 4) Запуск приложения - `python manage.py runserver`
