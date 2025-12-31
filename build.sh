@@ -18,6 +18,8 @@ echo "uv version: $(uv --version)"
 echo "Installing dependencies..."
 cd backend
 
+export PYTHONPATH="$(pwd)/..:${PYTHONPATH:-}"
+
 uv sync --frozen
 
 echo "Collecting static files..."

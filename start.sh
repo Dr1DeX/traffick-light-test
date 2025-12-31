@@ -7,6 +7,8 @@ export PATH="$HOME/.local/bin:/opt/render/.local/bin:$PATH"
 
 cd backend
 
+export PYTHONPATH="$(pwd)/..:${PYTHONPATH:-}"
+
 echo "Running migrations..."
 uv run python manage.py migrate --noinput
 
