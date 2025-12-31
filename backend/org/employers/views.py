@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db import connection
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.views.generic import TemplateView
 
 from .models import Department, Employee
@@ -99,7 +100,6 @@ class DepartmentEmployeesView(TemplateView):
 
         # Если это AJAX запрос, возвращаем JSON с HTML
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            from django.template.loader import render_to_string
             html = render_to_string(self.template_name, context, request=request)
             return JsonResponse({
                 'html': html,
