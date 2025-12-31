@@ -1,0 +1,64 @@
+services:
+  - type: web
+    name: traffick-light-django
+    env: python
+    plan: free
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: chmod +x start.sh && ./start.sh
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DJANGO_SETTINGS_MODULE
+        value: org.entrypoints.main.settings
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_MEMORY_DB
+        value: "False"
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: traffick-light-db
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: traffick-light-db
+          property: port
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: traffick-light-db
+          property: database
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: traffick-light-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: traffick-light-db
+          property: password
+      # Redis настройки
+      # - key: CHANNELS_REDIS_HOST
+      #   fromService:
+      #     name: traffick-light-redis
+      #     type: redis
+      #     property: host
+      # - key: CHANNELS_REDIS_PORT
+      #   fromService:
+      #     name: traffick-light-redis
+      #     type: redis
+      #     property: port
+      # - key: CHANNELS_REDIS_PASSWORD
+      #   fromService:
+      #     name: traffick-light-redis
+      #     type: redis
+      #     property: password
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@example.com
+      - key: DJANGO_SUPERUSER_PASSWORD
+        generateValue: true
+
+databases:
+  - name: traffick-light-db
+    plan: free
+    databaseName: org
+    user: postgres
