@@ -35,6 +35,8 @@ else:
     print(f'Superuser "{username}" already exists')
 PYTHON_EOF
 
+uv run python manage.py generate_test_data.py
+
 echo "Starting Gunicorn..."
 # PORT автоматически устанавливается Render
 exec uv run gunicorn \
