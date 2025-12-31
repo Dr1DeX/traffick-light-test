@@ -46,6 +46,8 @@ services:
       - key: CHANNELS_REDIS_SSL
         value: "True"
 
+      - fromGroup: redis
+
 databases:
   - name: traffick-light-db
     plan: free
