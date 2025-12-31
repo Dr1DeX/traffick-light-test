@@ -60,5 +60,5 @@ services:
 databases:
   - name: traffick-light-db
     plan: free
-    databaseName: org
-    user: postgres
+    databaseName: org_p1xu
+    user: betronic
