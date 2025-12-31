@@ -3,7 +3,7 @@
 
 set -e
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:/opt/render/.local/bin:$PATH"
 
 cd backend
 
