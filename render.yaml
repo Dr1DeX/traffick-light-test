@@ -35,16 +35,16 @@ services:
           name: traffick-light-db
           property: password
       # Redis настройки
+      - key: CHANNELS_REDIS_HOST
+        sync: false
+      - key: CHANNELS_REDIS_PORT
+        sync: false
+      - key: CHANNELS_REDIS_PASSWORD
+        sync: false
       - key: CHANNELS_REDIS_DB
         value: "0"
       - key: CHANNELS_REDIS_SSL
         value: "True"
-      - key: DJANGO_SUPERUSER_USERNAME
-        value: admin
-      - key: DJANGO_SUPERUSER_EMAIL
-        value: admin@example.com
-      - key: DJANGO_SUPERUSER_PASSWORD
-        generateValue: true
 
 databases:
   - name: traffick-light-db
