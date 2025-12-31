@@ -93,10 +93,12 @@ CHANNELS_REDIS_PASSWORD = env("CHANNELS_REDIS_PASSWORD", default=None)
 CHANNELS_REDIS_DB = env("CHANNELS_REDIS_DB", default=0)
 CHANNELS_REDIS_SSL = env.bool("CHANNELS_REDIS_SSL", default=False)
 
+REDIS_SSL = "rediss" if CHANNELS_REDIS_SSL else "redis"
+
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': f'redis://{CHANNELS_REDIS_HOST}:{CHANNELS_REDIS_PORT}/{CHANNELS_REDIS_DB}',
+        'LOCATION': f'{REDIS_SSL}://{CHANNELS_REDIS_HOST}:{CHANNELS_REDIS_PORT}/{CHANNELS_REDIS_DB}',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
