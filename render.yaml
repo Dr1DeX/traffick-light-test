@@ -11,7 +11,7 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: org.entrypoints.main.settings
       - key: DJANGO_DEBUG
-        value: "False"
+        value: "True"
       - key: DJANGO_MEMORY_DB
         value: "False"
       - key: POSTGRES_HOST
