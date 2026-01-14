@@ -4,6 +4,7 @@ from decimal import Decimal
 
 from django.core.management.base import BaseCommand
 from django.db import connection
+from django.db.models import Count
 from django.utils import timezone
 from org.employers.models import Department, Employee
 
@@ -13,17 +14,53 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write('Генерация тестовых данных...')
+        force = options["force"]
+        employees_count = options["count"]
 
-        Employee.objects.all().delete()
-        Department.objects.all().delete()
+        dept_count = Department.objects.count()
+        emp_count = Employee.objects.count()
 
-        # Генерация отделов (25 отделов в 5 уровнях)
-        departments = self.create_departments()
+        if force:
+            Employee.objects.all().delete()
+            Department.objects.all().delete()
+            self.stdout.write("Существующие данные удалены.")
+            departments = self.create_departments()
+            self.create_employees(departments, employees_count)
+            self.stdout.write(self.style.SUCCESS("Данные успешно пересозданы!"))
+            return
 
-        # Генерация 50k сотрудников
-        self.create_employees(departments)
+        if dept_count == 0 and emp_count == 0:
+            self.stdout.write("БД пуста, создаём отделы и сотрудников...")
+            departments = self.create_departments()
+            self.create_employees(departments, employees_count)
+            self.stdout.write(self.style.SUCCESS("Данные успешно созданы!"))
+            return
 
-        self.stdout.write(self.style.SUCCESS('Данные успешно созданы!'))
+        if dept_count > 0 and emp_count == 0:
+            self.stdout.write(
+                f"Найдено {dept_count} отделов и 0 сотрудников. Генерируем сотрудников для всех отделов..."
+            )
+            departments = list(Department.objects.all())
+            self.create_employees(departments, employees_count)
+            self.stdout.write(self.style.SUCCESS("Сотрудники успешно созданы!"))
+            return
+
+        departments_without_employees = Department.objects.annotate(
+            emp_count=Count("employees")
+        ).filter(emp_count=0)
+
+        if departments_without_employees.exists():
+            self.stdout.write(
+                f"Найдено {departments_without_employees.count()} отделов без сотрудников. Генерируем только для них..."
+            )
+            self.create_employees(list(departments_without_employees), employees_count)
+            self.stdout.write(self.style.SUCCESS("Сотрудники для пустых отделов созданы!"))
+        else:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"Отделы ({dept_count}) и сотрудники ({emp_count}) уже существуют."
+                )
+            )
 
     def create_departments(self):
         """Создает 25 отделов в 5 уровнях иерархии"""
